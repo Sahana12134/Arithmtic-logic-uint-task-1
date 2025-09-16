@@ -1,0 +1,29 @@
+module ALU_tb;
+
+reg [3:0] A, B;
+reg [2:0] ALU_Sel;
+wire [3:0] ALU_Out;
+wire Zero;
+
+ALU uut (
+    .A(A),
+    .B(B),
+    .ALU_Sel(ALU_Sel),
+    .ALU_Out(ALU_Out),
+    .Zero(Zero)
+);
+
+initial begin
+    $display("Time\tA\tB\tSel\tOut\tZero");
+    $monitor("%0t\t%b\t%b\t%b\t%b\t%b", $time, A, B, ALU_Sel, ALU_Out, Zero);
+
+    A = 4'b0011; B = 4'b0001; ALU_Sel = 3'b000; #10; // ADD
+    A = 4'b0100; B = 4'b0010; ALU_Sel = 3'b001; #10; // SUB
+    A = 4'b1100; B = 4'b1010; ALU_Sel = 3'b010; #10; // AND
+    A = 4'b1100; B = 4'b1010; ALU_Sel = 3'b011; #10; // OR
+    A = 4'b1100; B = 4'b0000; ALU_Sel = 3'b100; #10; // NOT
+
+    $finish;
+end
+
+endmodule
